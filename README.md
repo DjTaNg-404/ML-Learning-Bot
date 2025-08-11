@@ -17,7 +17,7 @@ uvicorn backend.api_server:app --reload
 2. 访问方式
 在 project 目录下运行：
 ```bash
-streamlit run chat_client.py
+streamlit run Hello.py
 ``` 
 
 3. 访问地址

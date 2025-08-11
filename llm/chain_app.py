@@ -1,12 +1,19 @@
+import os
+from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai.chat_models import ChatOpenAI
-from llm.config import DEEPSEEK_API_KEY, DEEPSEEK_API_BASE, MODEL_NAME
+
+load_dotenv()
+
+SILICONFLOW_API_KEY = os.getenv('SILICONFLOW_API_KEY')
+SILICONFLOW_BASE_URL = os.getenv('SILICONFLOW_BASE_URL')
+MODEL_NAME = os.getenv('SILICONFLOW_MODEL', 'Qwen/Qwen3-8B')  # 默认值
 
 chat_model = ChatOpenAI(
     model=MODEL_NAME,
-    openai_api_key=DEEPSEEK_API_KEY,
-    openai_api_base=DEEPSEEK_API_BASE,
+    openai_api_key=SILICONFLOW_API_KEY,
+    openai_api_base=SILICONFLOW_BASE_URL,
     temperature=0.7
 )
 
