@@ -56,11 +56,6 @@ pip install python-dotenv faiss-cpu requests
 SILICONFLOW_API_KEY=sk-your-siliconflow-api-key-here
 SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
 SILICONFLOW_MODEL=deepseek-ai/DeepSeek-V2.5
-
-# 其他配置（可选）
-DEEPSEEK_API_KEY=sk-your-deepseek-api-key-here
-DEEPSEEK_BASE_URL=https://api.deepseek.com
-DEEPSEEK_MODEL=deepseek-chat
 ```
 
 ### 3. 启动服务
@@ -68,8 +63,7 @@ DEEPSEEK_MODEL=deepseek-chat
 **步骤1：启动后端服务**
 
 ```bash
-cd d:\demo\project
-uvicorn backend.api_server:app --reload
+uvicorn api_server:app --reload
 ```
 
 **步骤2：启动前端界面**
