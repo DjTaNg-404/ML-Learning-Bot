@@ -1,40 +1,44 @@
-# 机器学习可视化学习平台 - Sugar-AI
+# 机器学习智能助手 - Sugar-AI
 
-一个集成了RAG（检索增强生成）功能的智能聊天机器人平台，专为机器学习学习和研究而设计。
+一个基于 RAG（检索增强生成）技术的智能学习平台，集成了先进的文档处理、语义分块、向量检索和大语言模型对话功能，专为机器学习学习和研究而设计。
 
-## 🌟 功能特性
+## 🌟 核心特性
 
-- **🤖 智能聊天机器人**：Sugar-AI 助手，专业解答机器学习相关问题
-- **📚 RAG知识检索**：基于本地文档库的智能检索和问答
-- **🔄 多模型支持**：支持硅基流动(SiliconFlow)等多种AI服务
-- **⚡ 流式响应**：支持实时流式对话体验
-- **🎛️ 可调参数**：灵活的检索参数和重排序设置
-- **📊 可视化界面**：基于Streamlit的友好Web界面
+- **🤖 智能对话系统**：Sugar-AI 助手，专业解答机器学习、深度学习、数据科学相关问题
+- **📚 高级 RAG 检索**：支持递归分割和动态语义分块的文档处理系统
+- **🧠 多模型支持**：集成 SiliconFlow API，支持多种嵌入模型和重排序模型
+- **⚡ 实时流式响应**：支持流式对话，实时显示 AI 思考过程
+- **🎛️ 智能参数调节**：动态调整检索条数、重排序候选数等参数
+- **📊 直观 Web 界面**：基于 Streamlit 的现代化交互界面
+- **🔧 灵活文档处理**：支持 PDF、Markdown、CSV、Excel 等多种格式
+- **💾 持久化存储**：使用 FAISS 向量数据库，支持增量更新
 
 ## 🏗️ 项目架构
 
 ```
-project/
-├── backend/           # FastAPI后端服务
-│   └── api_server.py  # API服务器
-├── frontend/          # Streamlit前端界面
-│   ├── Hello.py       # 主页
+ML-Learning-Bot/
+├── backend/                 # FastAPI 后端服务
+│   └── api_server.py       # API 服务器，处理聊天请求和流式响应
+├── frontend/               # Streamlit 前端界面
+│   ├── Hello.py           # 主页和项目介绍
 │   └── pages/
-│       └── 聊天bot.py  # 聊天界面
-├── llm/              # LLM相关模块
-│   ├── chain_app.py   # 基础聊天链
-│   ├── graph_app.py   # 对话图结构
-│   └── rag_chain.py   # RAG增强链
-├── rag/              # RAG检索模块
-│   ├── document_loader.py  # 文档加载器
-│   ├── embedding.py        # 向量嵌入
-│   ├── rerank.py          # 重排序服务
-│   └── vector_store.py    # 向量存储
-├── ml/               # 机器学习模块
-├── data/             # 数据存储
-│   ├── ml_books/     # 机器学习书籍
-│   └── vector_db/    # 向量数据库
-└── .env              # 环境变量配置
+│       ├── 聊天bot.py      # 智能对话界面
+│       └── 机器学习.py     # 机器学习专题页面
+├── llm/                   # 大语言模型相关模块
+│   ├── chain_app.py       # 基础聊天链和模型配置
+│   ├── graph_app.py       # LangGraph 对话状态管理
+│   └── rag_chain.py       # RAG 增强聊天链
+├── rag/                   # RAG 检索系统核心模块
+│   ├── document_loader.py  # 文档加载器（支持多格式，语义分块）
+│   ├── embedding.py        # 嵌入服务（SiliconFlow API）
+│   ├── vector_store.py     # 向量存储（FAISS）
+│   └── rerank.py          # 重排序服务
+├── data/                  # 数据存储目录
+│   ├── ml_books/          # PDF 书籍存储
+│   ├── hml-solutions/     # 机器学习习题解答（Markdown）
+│   ├── pumpkin-book/      # 南瓜书文档（Markdown）
+│   └── vector_db/         # FAISS 向量数据库文件
+└── test_siliconflow_index/ # 测试向量索引
 ```
 
 ## 🚀 快速开始
@@ -42,81 +46,141 @@ project/
 ### 1. 环境准备
 
 ```bash
+# 克隆项目
+git clone <your-repo-url>
+cd ML-Learning-Bot
+
+# 创建虚拟环境
+python -m venv venv
+source venv/bin/activate  # macOS/Linux
+# venv\Scripts\activate   # Windows
+
 # 安装依赖
-pip install fastapi uvicorn streamlit langchain langchain-openai
-pip install python-dotenv faiss-cpu requests
+pip install -r requirements.txt
 ```
 
-### 2. 配置环境变量
+### 2. 环境配置
 
-创建 `.env` 文件并配置API密钥：
+创建 `.env` 文件并配置 API 密钥：
 
-```env
+```bash
 # SiliconFlow API 配置
-SILICONFLOW_API_KEY=sk-your-siliconflow-api-key-here
+SILICONFLOW_API_KEY=your_siliconflow_api_key
 SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
-SILICONFLOW_MODEL=deepseek-ai/DeepSeek-V2.5
+
+# LLM 配置
+LLM_MODEL=Qwen/Qwen2.5-7B-Instruct
+EMBEDDING_MODEL=BAAI/bge-large-zh-v1.5
+
+# 重排序配置（可选）
+RERANK_API_KEY=your_rerank_api_key
+RERANK_BASE_URL=your_rerank_endpoint
 ```
 
-### 3. 启动服务
-
-**步骤1：启动后端服务**
+### 3. 启动应用
 
 ```bash
-uvicorn api_server:app --reload
-```
+# 启动后端服务
+cd backend
+python api_server.py
 
-**步骤2：启动前端界面**
-
-```bash
+# 启动前端界面（新终端）
+cd frontend
 streamlit run Hello.py
 ```
 
-### 4. 访问应用
+访问 `http://localhost:8501` 开始使用！
 
-浏览器访问 `http://localhost:8501` 即可使用。
+## 💡 使用指南
 
-## 📖 使用指南
+### 文档导入
+1. 在 `data/` 目录下放置您的文档文件
+2. 支持批量导入多种格式文档
+3. 系统会自动进行文档分块和向量化
 
-### 基础聊天
+### 对话模式
+- **基础聊天**：通用对话，适合日常交流
+- **RAG 增强**：基于文档知识库的专业问答
+- **机器学习**：专注于 ML 算法和理论的深度讨论
 
-- 直接输入问题与Sugar-AI对话
-- 支持机器学习、数据分析等专业问题
+### 高级功能
+- 调整分块策略（递归/语义）以优化检索效果
+- 使用重排序功能提升答案准确性
+- 批量处理大型文档集合
 
-### RAG知识检索
+## 📖 功能特性
 
-1. **启用RAG**：在侧边栏开启"启用知识检索(RAG)"
-2. **调整参数**：
-   - **检索条数**：控制返回的文档片段数量(1-20)
-   - **重排序候选数**：重排序时的候选文档数量
-3. **重排序**：开启"启用重排序"获得更精准的结果
+### 🤖 智能对话
+- **多模式聊天**：支持基础对话、RAG 增强对话、机器学习专题问答
+- **流式响应**：实时生成回复，提升用户体验
+- **上下文记忆**：基于 LangGraph 的对话状态管理
 
-### 参数说明
+### 📚 文档处理
+- **多格式支持**：PDF、Excel、CSV、TXT、Markdown 文档一键导入
+- **智能分块**：
+  - 递归字符分割（Recursive Character Splitter）
+  - 语义分块（Semantic Chunking）：基于嵌入向量相似度的智能分割
+- **批量处理**：支持大规模文档集合的高效处理
 
-- **检索条数(retrieval_k)**：最终返回给用户的文档片段数量
-- **重排序候选数(rerank_top_k)**：重排序阶段的候选文档数量，通常是检索条数的2-10倍
-- **流式响应**：实时显示AI思考和回答过程
+### 🔍 检索系统
+- **向量检索**：基于 FAISS 的高效相似度搜索
+- **重排序优化**：提升检索结果的相关性和准确性
+- **多策略检索**：结合关键词和语义检索的混合策略
 
-## 🛠️ 技术栈
+### 🧠 机器学习集成
+- **专业知识库**：整合《统计学习方法》、《南瓜书》等经典教材
+- **习题解答**：提供详细的机器学习习题解析
+- **算法讲解**：涵盖从基础到进阶的机器学习算法
 
-- **后端框架**：FastAPI
-- **前端框架**：Streamlit
-- **AI模型**：SiliconFlow API
+## 🛠️ 技术架构
+
+### 核心技术栈
+- **后端框架**：Flask + FastAPI
+- **前端界面**：Streamlit
+- **LLM 服务**：SiliconFlow API
 - **向量数据库**：FAISS
+- **文档处理**：LangChain + Unstructured
+- **对话管理**：LangGraph 状态机
 - **嵌入模型**：BAAI/bge-large-zh-v1.5
-- **重排序模型**：BAAI/bge-reranker-v2-m3
-- **对话管理**：LangGraph
-- **文档处理**：LangChain
+- **重排序**：BAAI/bge-reranker-v2-m3
 
-## 📁 数据管理
+## 🔧 配置说明
 
-### 添加文档
+### 文档分块配置
+```python
+# 递归分块参数
+CHUNK_SIZE = 500          # 分块大小
+CHUNK_OVERLAP = 50        # 重叠长度
 
-1. 将PDF文档放入 `data/ml_books/` 目录
-2. 重启服务，系统会自动处理新文档
-3. 向量化处理完成后即可进行RAG检索
+# 语义分块参数  
+SEMANTIC_THRESHOLD = 0.3  # 语义相似度阈值
+BREAKPOINT_PERCENTILE = 95 # 分割点百分位
+```
 
-### 向量库管理
+### 检索配置
+```python
+# 向量检索参数
+TOP_K = 10               # 检索文档数量
+SIMILARITY_THRESHOLD = 0.7 # 相似度阈值
+
+# 重排序配置
+RERANK_TOP_K = 5         # 重排序后保留数量
+```
+
+## 🔗 相关资源
+
+- [LangChain 文档](https://python.langchain.com/)
+- [FAISS 向量检索](https://github.com/facebookresearch/faiss)
+- [SiliconFlow API](https://docs.siliconflow.cn/)
+- [Streamlit 框架](https://streamlit.io/)
+
+## 📧 联系方式
+
+如有问题或建议，欢迎提交 Issue 或联系项目维护者。
+
+---
+
+⭐ 如果这个项目对您有帮助，请给我们一个 Star！
 
 - 向量库存储在 `data/vector_db/` 目录
 - 支持增量更新和持久化存储
