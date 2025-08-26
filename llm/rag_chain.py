@@ -28,7 +28,7 @@ class RAGChain:
         try:
             self.vector_store = VectorStore(
                 embedding_type="siliconflow",
-                model_name="BAAI/bge-large-zh-v1.5",
+                model_name="Pro/BAAI/bge-m3",
                 persist_path="data/vector_db"
             )
             
@@ -36,7 +36,7 @@ class RAGChain:
                 self.vector_store.load()
                 print("✅ RAG向量库加载成功")
             except:
-                documents = load_documents_from_directory("data/ml_books")
+                documents = load_documents_from_directory("data")
                 if documents:
                     self.vector_store.create_from_documents(documents)
                     self.vector_store.save()

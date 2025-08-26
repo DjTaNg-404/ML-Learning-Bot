@@ -333,8 +333,8 @@ class VectorStore:
 def create_vector_store_from_files(file_paths: Union[str, List[str]], 
                                   embedding_type: str = "siliconflow",  # 默认使用siliconflow
                                   model_name: str = "BAAI/bge-large-zh-v1.5",  # 使用SiliconFlow推荐模型
-                                  chunk_size: int = 500,
-                                  chunk_overlap: int = 200,
+                                  chunk_size: int = 1024,
+                                  chunk_overlap: int = 128,
                                   persist_path: Optional[str] = None,
                                   **embedding_kwargs) -> Optional[VectorStore]:
     """
@@ -359,7 +359,7 @@ def create_vector_store_from_files(file_paths: Union[str, List[str]],
             from .document_loader import DocumentLoader
         
         # 加载文档
-        loader = DocumentLoader(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        loader = DocumentLoader(chunk_size=chunk_size, chunk_overlap=chunk_overlap, split_mode="semantic")
         if isinstance(file_paths, str):
             file_paths = [file_paths]
         
