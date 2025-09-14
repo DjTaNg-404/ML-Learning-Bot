@@ -72,26 +72,16 @@ pip install -r requirements.txt
 # SiliconFlow API 配置
 SILICONFLOW_API_KEY=your_siliconflow_api_key
 SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
-
-# LLM 配置
-LLM_MODEL=Qwen/Qwen2.5-7B-Instruct
-EMBEDDING_MODEL=BAAI/bge-large-zh-v1.5
-
-# 重排序配置（可选）
-RERANK_API_KEY=your_rerank_api_key
-RERANK_BASE_URL=your_rerank_endpoint
 ```
 
 ### 3. 启动应用
 
 ```bash
 # 启动后端服务
-cd backend
-python api_server.py
+uvicorn backend.api_server:app --reload
 
 # 启动前端界面（新终端）
-cd frontend
-streamlit run Hello.py
+streamlit run frontend/Hello.py
 ```
 
 访问 `http://localhost:8501` 开始使用！
